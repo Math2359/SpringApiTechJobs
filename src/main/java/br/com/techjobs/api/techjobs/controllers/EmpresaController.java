@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.techjobs.api.techjobs.models.Empresa;
 import br.com.techjobs.api.techjobs.repositories.EmpresaRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +17,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @RestController
+@RequestMapping("empresa")
 public class EmpresaController {
     @Autowired
     private EmpresaRepository _empresaRepository;
 
-    @GetMapping("empresa")
+    @Operation(summary = "Obter todas as empresas", description = "Endpoint para obter todas as empresas cadastradas")
+    @GetMapping()
     public List<Empresa> obterEmpresas() {
         return _empresaRepository.findAll();
     }
 
-    @GetMapping("empresa/{id}")
+    @Operation(summary = "Obter empresa pelo Id", description = "Endpoint para obter uma empresa pelo Id")
+    @GetMapping("{id}")
     public Empresa obterEmpresa(@PathVariable Long id) {
         return _empresaRepository.findById(id).get();
     }
@@ -37,23 +43,27 @@ public class EmpresaController {
         return _empresaRepository.findByEmail(email);
     }
 
-    @GetMapping("empresa-cnpj/{cnpj}")
+    @Operation(summary = "Obter empresa pelo CNPJ exato", description = "Endpoint para obter uma empresa pelo CNPJ exato")
+    @GetMapping("cnpj/{cnpj}")
     public Empresa obterEmpresaPorCnpj(@PathVariable String cnpj) {
         return _empresaRepository.findByCnpj(cnpj);
     }
 
-    @DeleteMapping("empresa/{id}")
+    @Operation(summary = "Deletar empresa", description = "Endpoint para deletar uma empresa pelo Id")
+    @DeleteMapping("{id}")
     public void deletarEmpresaPorId(@PathVariable Long id){
         Optional<Empresa> op = _empresaRepository.findById(id);
         if (op.isPresent())
             _empresaRepository.deleteById(id);
     }
 
-    @PostMapping("empresa")
+    @Operation(summary = "Cadastrar empresa", description = "Endpoint para cadastrar uma empresa")
+    @PostMapping()
     public void inserirCandidato(@RequestBody Empresa empresa) {
         _empresaRepository.save(empresa);
     }
-    
+    @Operation(summary = "Atualizar empresa", description = "Endpoint para atualizar os dados de uma empresa")
+    @PutMapping("{id}")
     @PutMapping("empresa/{id}")
     public void atualizarCandidato(@PathVariable Long id, @RequestBody Empresa empresa) {
         Optional<Empresa> op = _empresaRepository.findById(id);

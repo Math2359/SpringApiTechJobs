@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.techjobs.api.techjobs.models.Vaga;
 import br.com.techjobs.api.techjobs.repositories.VagaRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,25 +17,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 
 @RestController
+@RequestMapping("vaga")
 public class VagaController {
     @Autowired
     private VagaRepository _vagaRepository;
 
-    @GetMapping("vaga")
-    public List<Vaga> obterVagas() {
-        return _vagaRepository.findAll();
-    }
-
-    @GetMapping("vaga/{id}")
+    @Operation(summary = "Obter vaga", description = "Endpoint para obter uma vaga pelo Id")
+    @GetMapping("{id}")
     public Vaga obterVaga(@PathVariable Long id) {
         return _vagaRepository.findById(id).get();
     }
 
-    @GetMapping("vaga-empresa/{id}")
+    @Operation(summary = "Obter vagas por empresa", description = "Endpoint para obter todas as vagas de uma empresa")
+    @GetMapping("empresa/{id}")
     public List<Vaga> obterVagasPorEmpresa(@PathVariable Long id) {
         return _vagaRepository.findByEmpresa(id);
     }
@@ -43,14 +44,16 @@ public class VagaController {
         _vagaRepository.save(vaga);
     }
     
-    @DeleteMapping("vaga/{id}")
+    @Operation(summary = "Deletar vaga", description = "Endpoint para deletar uma vaga pelo Id")
+    @DeleteMapping("{id}")
     public void deletarVaga(@PathVariable Long id) {
         Optional<Vaga> op = _vagaRepository.findById(id);
         if (op.isPresent())
             _vagaRepository.deleteById(id);
     }
 
-    @PutMapping("vaga/{id}")
+    @Operation(summary = "Atualizar vaga", description = "Endpoint para atualizar uma vaga")
+    @PutMapping("{id}")
     public void atualizarVaga(@PathVariable Long id, @RequestBody Vaga vaga) {
         Optional<Vaga> op = _vagaRepository.findById(id);
         if (op.isPresent()){
