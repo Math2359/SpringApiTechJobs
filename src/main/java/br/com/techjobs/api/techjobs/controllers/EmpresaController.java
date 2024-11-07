@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+@Tag(name = "Empresa")
 @RestController
 @RequestMapping("empresa")
 public class EmpresaController {
@@ -38,9 +38,10 @@ public class EmpresaController {
         return _empresaRepository.findById(id).get();
     }
 
-    @GetMapping("empresa-email/{email}")
-    public Empresa obterEmpresaPorEmail(@PathVariable String email) {
-        return _empresaRepository.findByEmail(email);
+    @Operation(summary = "Obter empresas pelo E-mail", description = "Endpoint para obter empresas pelo E-mail")
+    @GetMapping("email/{email}")
+    public List<Empresa> obterEmpresaPorEmail(@PathVariable String email) {
+        return _empresaRepository.findByEmailContainingIgnoreCase(email);
     }
 
     @Operation(summary = "Obter empresa pelo CNPJ exato", description = "Endpoint para obter uma empresa pelo CNPJ exato")
@@ -62,9 +63,9 @@ public class EmpresaController {
     public void inserirCandidato(@RequestBody Empresa empresa) {
         _empresaRepository.save(empresa);
     }
+    
     @Operation(summary = "Atualizar empresa", description = "Endpoint para atualizar os dados de uma empresa")
     @PutMapping("{id}")
-    @PutMapping("empresa/{id}")
     public void atualizarCandidato(@PathVariable Long id, @RequestBody Empresa empresa) {
         Optional<Empresa> op = _empresaRepository.findById(id);
 

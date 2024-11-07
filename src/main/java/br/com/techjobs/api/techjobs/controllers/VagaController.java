@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.techjobs.api.techjobs.models.Vaga;
+import br.com.techjobs.api.techjobs.util.Util;
+import br.com.techjobs.api.techjobs.models.dtos.VagaDTO;
 import br.com.techjobs.api.techjobs.repositories.VagaRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,8 +21,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-
+@Tag(name = "Vaga")
 @RestController
 @RequestMapping("vaga")
 public class VagaController {
@@ -39,11 +40,23 @@ public class VagaController {
         return _vagaRepository.findByEmpresa(id);
     }
 
-    @PostMapping("vaga")
+    @Operation(summary = "Obter todas as vagas", description = "Endpoint para obter todas as vagas de acordo com parâmetros")
+    @GetMapping("params")
+    public List<Vaga> obterVagas(Optional<VagaDTO> vaga) throws IllegalAccessException {
+        if (!vaga.isPresent())
+            return _vagaRepository.findAll();
+
+        VagaDTO vagaTratada = Util.convertStrings(vaga.get());
+
+        return _vagaRepository.findDiferente(vagaTratada.getCargo(), vagaTratada.getNivel(), vagaTratada.getModelo(), vagaTratada.getCep());
+    }
+
+    @Operation(summary = "Cadastrar vaga", description = "Endpoint para cadastrar uma vaga")
+    @PostMapping()
     public void inserirCandidato(@RequestBody Vaga vaga) {
         _vagaRepository.save(vaga);
     }
-    
+
     @Operation(summary = "Deletar vaga", description = "Endpoint para deletar uma vaga pelo Id")
     @DeleteMapping("{id}")
     public void deletarVaga(@PathVariable Long id) {

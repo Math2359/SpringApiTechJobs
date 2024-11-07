@@ -10,13 +10,13 @@ import jakarta.validation.constraints.NotEmpty;
 public class Candidato {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     @NotEmpty(message = "Candidato precisa de um E-mail")
-    private String Email;
+    private String email;
     @NotEmpty(message = "Candidato precisa de uma Senha")
-    private String Senha;
+    private String senha;
     @NotEmpty(message = "Candidato precisa de um Nome")
-    private String Nome;
+    private String nome;
 
     public Candidato() {
 
@@ -24,41 +24,41 @@ public class Candidato {
 
     public Candidato(Long id, String email, String senha, String nome) {
         super();
-        this.Id = id;
-        this.Email = email;
-        this.Senha = senha;
-        this.Nome = nome;
+        this.id = id;
+        this.email = email;
+        this.senha = senha;
+        this.nome = nome;
     }
 
     public Long getId() {
-        return this.Id;
+        return this.id;
     }
 
     public void setId(Long id) {
-        this.Id = id;
+        this.id = id;
     }
 
     public String getEmail() {
-        return this.Email;
+        return this.email;
     }
 
     public void setEmail(String email) {
-        this.Email = email;
+        this.email = email;
     }
 
     public String getSenha() {
-        return this.Senha;
+        return this.senha;
     }
 
     public void setSenha(String senha) {
-        this.Senha = senha;
+        this.senha = senha;
     }
 
     public String getNome() {
-        return this.Nome;
+        return this.nome;
     }
 
     public void setNome(String nome) {
-        this.Nome = nome;
+        this.nome = nome;
     }
 }

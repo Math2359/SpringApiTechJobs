@@ -38,9 +38,10 @@ public class CandidatoController {
         return _candidatoRepository.findById(id).get();
     }
 
-    @GetMapping("/candidato-email/{email}")
-    public Candidato obterCandidatoPorEmail(@PathVariable String email) {
-        return _candidatoRepository.findByEmail(email);
+    @Operation(summary = "Obter candidatos por E-mail", description = "Endpoint para obter candidatos por E-mail")
+    @GetMapping("email/{email}")
+    public List<Candidato> obterCandidatosPorEmail(@PathVariable String email) {
+        return _candidatoRepository.findByEmailContainingIgnoreCase(email);
     }
 
     @Operation(summary = "Deletar candidato", description = "Endpoint para deletar um candidato")

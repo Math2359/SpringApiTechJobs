@@ -11,17 +11,17 @@ import jakarta.persistence.ManyToOne;
 public class Vaga {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 	@ManyToOne
 	@JoinColumn(name = "id_empresa")
-    private Empresa Empresa;
-    private String Cargo;
-    private String Modelo;
-    private String Nivel;
-    private String Cep;
-    private String Numero;
-    private String Descricao;
-    private Double Salario;
+    private Empresa empresa;
+    private String cargo;
+    private String modelo;
+    private String nivel;
+    private String cep;
+    private String numero;
+    private String descricao;
+    private Double salario;
 
     public Vaga() {
 
@@ -29,85 +29,85 @@ public class Vaga {
 
     public Vaga(Empresa empresa, String cargo, String modelo, String nivel, String cep, String numero, String descricao, Double salario) {
         super();
-        this.Empresa = empresa;
-        this.Cargo = cargo;
-        this.Modelo = modelo;
-        this.Nivel = nivel;
-        this.Cep = cep;
-        this.Numero = numero;
-        this.Descricao = descricao;
-        this.Salario = salario;
+        this.empresa = empresa;
+        this.cargo = cargo;
+        this.modelo = modelo;
+        this.nivel = nivel;
+        this.cep = cep;
+        this.numero = numero;
+        this.descricao = descricao;
+        this.salario = salario;
     }
 
     public Long getId() {
-        return this.Id;
+        return this.id;
     }
 
     public void setId(Long id) {
-        this.Id = id;
+        this.id = id;
     }
 
     public Empresa getEmpresa() {
-		return this.Empresa;
+		return this.empresa;
 	}
 
 	public void setEmpresa(Empresa empresa) {
-		this.Empresa = empresa;
+		this.empresa = empresa;
 	}
 
     public String getCargo() {
-        return this.Cargo;
+        return this.cargo;
     }
 
     public void setCargo(String cargo) {
-        this.Cargo = cargo;
+        this.cargo = cargo;
     }
 
     public String getModelo() {
-        return this.Modelo;
+        return this.modelo;
     }
 
     public void setModelo(String modelo) {
-        this.Modelo = modelo;
+        this.modelo = modelo;
     }
 
     public String getNivel() {
-        return this.Nivel;
+        return this.nivel;
     }
 
     public void setNivel(String nivelExperiencia) {
-        this.Nivel = nivelExperiencia;
+        this.nivel = nivelExperiencia;
     }
 
     public String getCep() {
-        return this.Cep;
+        return this.cep;
     }
 
     public void setCep(String cep) {
-        this.Cep = cep;
+        this.cep = cep;
     }
 
     public String getNumero() {
-        return this.Numero;
+        return this.numero;
     }
 
     public void setNumero(String numero) {
-        this.Numero = numero;
+        this.numero = numero;
     }
 
     public String getDescricao() {
-        return this.Descricao;
+        return this.descricao;
     }
 
     public void setDescricao(String descricao) {
-        this.Descricao = descricao;
+        this.descricao = descricao;
     }
 
     public Double getSalario() {
-        return this.Salario;
+        return this.salario;
     }
 
     public void setSalario(Double salario) {
-        this.Salario = salario;
+        this.salario = salario;
     }
 }
