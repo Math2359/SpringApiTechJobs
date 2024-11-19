@@ -1,13 +1,19 @@
 package br.com.techjobs.api.techjobs.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.techjobs.api.techjobs.models.AplicacaoVaga;
 import br.com.techjobs.api.techjobs.models.Empresa;
+import br.com.techjobs.api.techjobs.models.Vaga;
+import br.com.techjobs.api.techjobs.models.dtos.DashInfoEmpresa;
+import br.com.techjobs.api.techjobs.repositories.AplicacaoVagaRepository;
 import br.com.techjobs.api.techjobs.repositories.EmpresaRepository;
+import br.com.techjobs.api.techjobs.repositories.VagaRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -18,6 +24,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Tag(name = "Empresa")
 @RestController
@@ -25,6 +33,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class EmpresaController {
     @Autowired
     private EmpresaRepository _empresaRepository;
+
+    @Autowired
+    private VagaRepository _vagaRepository;
+
+    @Autowired
+    private AplicacaoVagaRepository _aplicacaoVagaRepository;
 
     @Operation(summary = "Obter todas as empresas", description = "Endpoint para obter todas as empresas cadastradas")
     @GetMapping()
@@ -77,5 +91,60 @@ public class EmpresaController {
             atualizarEmpresa.setCnpj(empresa.getCnpj());
             _empresaRepository.save(atualizarEmpresa);
         }
+    }
+
+    @Operation(summary = "Recusar aplicação", description = "Enpoint para recusar uma aplicação")
+    @PostMapping("aplicacao/recusar/{id}")
+    public void recusarAplicacao(@PathVariable Long id) {
+        Optional<AplicacaoVaga> op = _aplicacaoVagaRepository.findById(id);
+
+        if (op.isPresent()) {
+            AplicacaoVaga aplicacao = op.get();
+
+            aplicacao.setSituacao("Recusado");
+
+            _aplicacaoVagaRepository.save(aplicacao);
+        }
+    }
+
+    @Operation(summary = "Aprovar aplicação", description = "Enpoint para aprovar uma aplicação")
+    @PostMapping("aplicacao/aprovar/{id}")
+    public void aprovarAplicacao(@PathVariable Long id) {
+        Optional<AplicacaoVaga> op = _aplicacaoVagaRepository.findById(id);
+
+        if (op.isPresent()) {
+            AplicacaoVaga aplicacao = op.get();
+
+            aplicacao.setSituacao("Aprovado");
+
+            _aplicacaoVagaRepository.save(aplicacao);
+        }
+    }
+
+    @Operation(summary = "Obter aplicações", description = "Enpoint para obter aplicações de uma vaga específica")
+    @GetMapping("aplicacao/{idVaga}")
+    public List<AplicacaoVaga> obterAplicacaoVagas(@PathVariable Long idVaga) {
+        Optional<Vaga> op = _vagaRepository.findById(idVaga);
+        
+        if (op.isPresent()) {
+            return _aplicacaoVagaRepository.findByVaga(op.get());
+        }
+
+        return new ArrayList<AplicacaoVaga>();
+    }
+
+    @Operation(summary = "Obter informações Dash", description = "Enpoint para obter informações da Dashboard da empresa")
+    @GetMapping("dashboard-info/{id}")
+    public DashInfoEmpresa dashboardInfo(@PathVariable Long id) throws Exception {
+        List<Vaga> vagas = _vagaRepository.findByEmpresa(id);
+        Optional<Empresa> op = _empresaRepository.findById(id);
+        
+        if (op.isPresent()) {
+            Empresa empresa = op.get();
+            Long vagasDisponiveis = (long)vagas.size();
+            return new DashInfoEmpresa(empresa.getNome(), empresa.getEmail(), vagasDisponiveis, vagas);
+        }
+
+        throw new Exception("Empresa não encontrada");
     }
 }

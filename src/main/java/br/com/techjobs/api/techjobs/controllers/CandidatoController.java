@@ -1,6 +1,5 @@
 package br.com.techjobs.api.techjobs.controllers;
 
-import java.lang.classfile.ClassFile.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Tag(name = "Candidato")
@@ -87,7 +85,7 @@ public class CandidatoController {
     }
 
     @Operation(summary = "Aplicar vaga", description = "Endpoint para um candidato específico se candidatar a uma vaga")
-    @PostMapping("aplicadas/{idCandidato}/{idVaga}")
+    @PostMapping("aplicacao/{idCandidato}/{idVaga}")
     public void aplicarVaga(@PathVariable Long idCandidato, @PathVariable Long idVaga) throws Exception {
         Optional<Vaga> opVaga = _vagaRepository.findById(idVaga);
         Optional<Candidato> op = _candidatoRepository.findById(idCandidato);
@@ -105,7 +103,7 @@ public class CandidatoController {
     }
 
     @Operation(summary = "Obter vagas aplicadas", description = "Endpoint para obter vagas aplicadas de um determinado candidato")
-    @GetMapping("aplicadas/{idCandidato}")
+    @GetMapping("aplicacao/{idCandidato}")
     public List<AplicacaoVaga> obterVagasAplicadas(@PathVariable Long idCandidato) throws Exception {
         Optional<Candidato> op = _candidatoRepository.findById(idCandidato);
 
