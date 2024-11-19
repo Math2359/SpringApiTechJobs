@@ -56,6 +56,12 @@ public class CandidatoController {
         return _candidatoRepository.findByEmailContainingIgnoreCase(email);
     }
 
+    @Operation(summary = "Obter candidatos pelo Nome", description = "Endpoint para obter candidados pelo nome")
+    @GetMapping("nome/{nome}")
+    public List<Candidato> obterCandidatoPorNome(@PathVariable String nome) {
+        return _candidatoRepository.findByNomeContainingIgnoreCase(nome);
+    }
+
     @Operation(summary = "Deletar candidato", description = "Endpoint para deletar um candidato")
     @DeleteMapping("{id}")
     public void deletarCandidatoPorId(@PathVariable Long id){

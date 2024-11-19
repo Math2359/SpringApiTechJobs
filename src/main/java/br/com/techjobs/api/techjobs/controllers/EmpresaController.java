@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @Tag(name = "Empresa")
 @RestController
@@ -62,6 +60,12 @@ public class EmpresaController {
     @GetMapping("cnpj/{cnpj}")
     public Empresa obterEmpresaPorCnpj(@PathVariable String cnpj) {
         return _empresaRepository.findByCnpj(cnpj);
+    }
+
+    @Operation(summary = "Obter empresa pelo Nome", description = "Endpoint para obter empresas pelo nome")
+    @GetMapping("nome/{nome}")
+    public List<Empresa> obterEmpresaPorNome(@PathVariable String nome) {
+        return _empresaRepository.findByNomeContainingIgnoreCase(nome);
     }
 
     @Operation(summary = "Deletar empresa", description = "Endpoint para deletar uma empresa pelo Id")

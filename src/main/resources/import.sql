@@ -1,5 +1,9 @@
-INSERT INTO Candidato(Email, Senha, Nome) VALUES('carlos@gmail.com', '123456', 'Carlos Alberto');
-INSERT INTO Candidato(Email, Senha, Nome) VALUES('roberta@gmail.com', '123456', 'Roberta Alberta');
+INSERT INTO Candidato(Email, Senha, Nome) VALUES('mateus@gmail.com', '123456', 'Mateus Moretti');
+INSERT INTO Candidato(Email, Senha, Nome) VALUES('haruki@gmail.com', '123456', 'Matheus Haruki');
+INSERT INTO Candidato(Email, Senha, Nome) VALUES('flavio@gmail.com', '123456', 'Flávio Máximo');
+INSERT INTO Candidato(Email, Senha, Nome) VALUES('amanda@gmail.com', '123456', 'Amanda Nunes');
+INSERT INTO Candidato(Email, Senha, Nome) VALUES('jose@gmail.com', '123456', 'José Vítor');
+INSERT INTO Candidato(Email, Senha, Nome) VALUES('giovanni@gmail.com', '123456', 'Giovanni Trimmer');
 
 INSERT INTO Empresa(Email, Senha, Nome, Cnpj) VALUES('empresa@gmail.com', '123456', 'Empresa', '81652241000117');
 INSERT INTO Empresa(Email, Senha, Nome, Cnpj) VALUES('instituto@gmail.com', '123456', 'Instituto Contrate', '42380158000184');
