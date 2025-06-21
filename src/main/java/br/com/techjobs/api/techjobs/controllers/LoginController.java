@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.techjobs.api.techjobs.models.Candidato;
 import br.com.techjobs.api.techjobs.models.Empresa;
 import br.com.techjobs.api.techjobs.models.dtos.LoginDTO;
+import br.com.techjobs.api.techjobs.models.dtos.UserCredentials;
 import br.com.techjobs.api.techjobs.repositories.CandidatoRepository;
 import br.com.techjobs.api.techjobs.repositories.EmpresaRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -28,38 +30,28 @@ public class LoginController {
     private EmpresaRepository _empresaRepository;
     
     @Operation(summary = "Logar candidato", description = "Endpoint para logar um candidato")
-    @GetMapping("candidato")
-    public String loginCandidato(LoginDTO login) {
+    @PostMapping()
+    public UserCredentials login(LoginDTO login) throws Exception {
         Optional<Candidato> op = _candidatoRepository.findByEmailIgnoreCase(login.getEmail());
 
         if (op.isPresent()) {
             Candidato candidato = op.get();
 
             if (candidato.getSenha().equals(login.getSenha())) {
-                return "Login feito com sucesso!";
+                return new UserCredentials(candidato.getId(), "Candidato");
             }
-
-            return "Senha incorreta!";
         }
 
-        return "Candidato não encontrado!";
-    }
+        Optional<Empresa> opEmpresa = _empresaRepository.findByEmailIgnoreCase(login.getEmail());
 
-    @Operation(summary = "Logar empresa", description = "Endpoint para logar uma empresa")
-    @GetMapping("empresa")
-    public String loginEmpresa(LoginDTO login) {
-        Optional<Empresa> op = _empresaRepository.findByEmailIgnoreCase(login.getEmail());
-
-        if (op.isPresent()) {
-            Empresa empresa = op.get();
+        if (opEmpresa.isPresent()) {
+            Empresa empresa = opEmpresa.get();
 
             if (empresa.getSenha().equals(login.getSenha())) {
-                return "Login feito com sucesso!";
+                return new UserCredentials(empresa.getId(), "Empresa");
             }
-
-            return "Senha incorreta!";
         }
 
-        return "Candidato não encontrado!";
+        throw new Exception("Usuário ou senha incorretos");
     }
 }

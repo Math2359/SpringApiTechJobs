@@ -43,7 +43,7 @@ public class VagaController {
     @Operation(summary = "Obter todas as vagas", description = "Endpoint para obter todas as vagas de acordo com parâmetros")
     @GetMapping("params")
     public List<Vaga> obterVagas(Optional<VagaDTO> vaga) throws IllegalAccessException {
-        if (!vaga.isPresent())
+        if (vaga.isEmpty())
             return _vagaRepository.findAll();
 
         VagaDTO vagaTratada = Util.convertStrings(vaga.get());
