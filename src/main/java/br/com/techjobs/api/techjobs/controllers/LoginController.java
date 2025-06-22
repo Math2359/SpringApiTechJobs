@@ -14,9 +14,8 @@ import br.com.techjobs.api.techjobs.repositories.CandidatoRepository;
 import br.com.techjobs.api.techjobs.repositories.EmpresaRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Tag(name = "Login")
@@ -31,7 +30,7 @@ public class LoginController {
     
     @Operation(summary = "Logar candidato", description = "Endpoint para logar um candidato")
     @PostMapping()
-    public UserCredentials login(LoginDTO login) throws Exception {
+    public UserCredentials login(@RequestBody LoginDTO login) throws Exception {
         Optional<Candidato> op = _candidatoRepository.findByEmailIgnoreCase(login.getEmail());
 
         if (op.isPresent()) {
