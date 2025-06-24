@@ -45,3 +45,6 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/tech-jobs:latest
+
+      - name: Curl Render Deploy URL
+        run: curl ${{ secrets.DEPLOY_URL }}
