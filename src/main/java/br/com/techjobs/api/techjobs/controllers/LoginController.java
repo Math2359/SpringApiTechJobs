@@ -28,7 +28,7 @@ public class LoginController {
     @Autowired
     private EmpresaRepository _empresaRepository;
     
-    @Operation(summary = "Logar candidato", description = "Endpoint para logar um candidato")
+    @Operation(summary = "Logar usuário", description = "Endpoint para logar um usuário, candidato ou empresa")
     @PostMapping()
     public UserCredentials login(@RequestBody LoginDTO login) throws Exception {
         Optional<Candidato> op = _candidatoRepository.findByEmailIgnoreCase(login.getEmail());
