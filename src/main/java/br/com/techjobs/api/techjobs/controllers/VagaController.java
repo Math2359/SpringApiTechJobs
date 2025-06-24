@@ -28,7 +28,7 @@ public class VagaController {
     @Autowired
     private VagaRepository _vagaRepository;
 
-    @Operation(summary = "Obter vaga", description = "Endpoint para obter uma vaga pelo Id")
+    @Operation(summary = "Obter vaga por Id", description = "Endpoint para obter uma vaga pelo Id")
     @GetMapping("{id}")
     public Vaga obterVaga(@PathVariable Long id) {
         return _vagaRepository.findById(id).get();
